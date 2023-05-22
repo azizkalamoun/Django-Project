@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+
+{% block content %} 
+<!-- Register -->
+<div class="container d-flex justify-content-center align-items-center mt-5">
+  <div class="custom-form-container ">
+    <h2 class="mb-3 text-center">Register</h2>
+    <form method="POST">
+      {% csrf_token %}
+      
+      {% for field in register_form %}
+        <div class="form-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }} :  </label>
+          {{ field }}
+        </div>
+      {% endfor %}
+<div class="text-center">
+      <button class="btn btn-primary mb-2" type="submit">Register</button>
+</div>
+	</form>
+    <p class="text-center">If you already have an account, <a href="{% url 'login' %}">login</a> instead.</p>
+  </div>
+</div>
+
+{% endblock %}

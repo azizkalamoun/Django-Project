@@ -1,0 +1,218 @@
+
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+    <!-- Page Navigation -->
+    <nav
+      class="navbar custom-navbar navbar-expand-lg navbar-dark"
+      id="navbar"
+      data-spy="affix"
+      data-offset-top="20"
+    >
+      <div class="container">
+        <div
+          class="collapse navbar-collapse justify-content-center"
+          id="navbarSupportedContent"
+        >
+          <ul class="navbar-nav ml-0">
+            <li class="nav-item">
+              <a class="nav-link" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#services">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#portfolio">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="navbar-brand ml-3" href="#">
+                <img src="{% static '/imgs/logo.png' %}"/>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#team">Team</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#testimonial">Testimonial</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contact</a>
+            </li>
+            <li class="nav-item active dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 <image style="width:20px;height:auto;" src="{% static '/imgs/user.png' %}" /> 
+              </a>
+              <div class="dropdown-menu" aria-labelledby="userDropdown">
+                  {% if user.is_authenticated %}
+                      <span class="dropdown-item" >Welcome {{ user.username }}, ^^</span>
+                      <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+                  {% else %}
+                      <a class="dropdown-item" href="{% url 'login' %}" >Log In</a>
+                      <a class="dropdown-item" href="{% url 'register' %}" >Register</a>
+                  {% endif %}
+              </div>
+          </li>          
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Of Page Navigation -->
+    <!-- Page Header -->
+    <header class="header">
+      <div class="overlay">
+        <h6 class="h4">Mighty Minds in a Compact Crew</h6>
+        <h1 class="title">Arty Production</h1>
+        <div class="buttons text-center">
+          <a
+            href="{% url 'index' %}"
+            class="btn btn-outline-light rounded w-lg btn-lg my-1"
+            >Back to main page<br/>
+            
+            </a
+          >
+        </div>
+      </div>
+    </header>
+    <!-- End Of Page Header -->
+
+    <section id="portfolio">
+      <div class="container text-center">
+        <h6 class="section-title mb-5 blue" >My Projects</h6>
+        <div class="row">
+            {% if user_projects %}        
+            {% for projet in user_projects %}
+          {% with projet.images.first as first_image %}
+     <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+      <div class="project-card text-white project-card-has-bg click-col" style="background-image:url('{{ first_image.image.url }}');">
+             <img class="project-card-img d-none" src="{{ first_image.image.url }}" >
+             <a style="color: white ;text-decoration:none" href="{% url 'project_details' projet.id %}#portfolio">
+             <div class="project-card-img-overlay d-flex flex-column">
+                          <div class="project-card-body">
+                              <small class="project-card-meta ">{% for service in projet.services.all %}
+                                {{ service }}
+                            {% endfor %}</small>
+                              <h4 class="project-card-title mt-4">{{ projet.libellé }}</h4>
+                              <small class="project-card-meta"><i class="ti-time"></i> {% if project.achevé %}{{ projet.date_debut }}-{{ projet.date_fin }}{% else %}{{ projet.date_debut }}{% endif %}</small>
+                              <h6 class="project-card-body mt-0 ">{{ projet.description }}</h6>
+                            
+                            </div> 
+                      <div class="project-card-footer">
+                        <h6 class="my-0 d-block subtitle">{% if project.achevé %}Finished{% else %}In Progress{% endif %}</h6>
+                      </div>
+                  
+                </div> </a>
+        </div>
+      </div>
+    {% endwith %}
+      {% endfor %}
+      {% else %}
+    <h6>No projects found.</h6>
+  {% endif %}
+        </div>
+      </div>
+    </section> 
+  
+    <!-- Footer Section -->
+    <section class="has-bg-img py-0">
+      <div class="container">
+        <div class="footer">
+          <div class="footer-lists">
+            <ul class="list">
+              <li class="list-head">
+                <h6 class="font-weight-bold">ABOUT US</h6>
+              </li>
+              <li class="list-body">
+                <a href="#" class="logo">
+                  <img
+                    src="{% static '/imgs/logo.png' %}"
+                  />
+                  <h6>Arty Productions</h6>
+                </a>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Beatae nobis fugit maxime deleniti minus optio accusamus, quam
+                  maiores explicabo sunt.
+                </p>
+                <p class="mt-3">
+                  Copyright
+                  <script>
+                    document.write(new Date().getFullYear());
+                  </script>
+                </p>
+              </li>
+            </ul>
+            <ul class="list">
+              <li class="list-head">
+                <h6 class="font-weight-bold">LINKS</h6>
+              </li>
+              <li class="list-body">
+                <div class="row">
+                  <div class="col">
+                    <a href="#about">About</a>
+                    <a href="#service">Service</a>
+                    <a href="#portfolio">Portfolio</a>
+                  </div>
+                  <div class="col">
+                    <a href="#team">Team</a>
+                    <a href="#blog">Blog</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul class="list">
+              <li class="list-head">
+                <h6 class="font-weight-bold">CONTACT INFO</h6>
+              </li>
+              <li class="list-body">
+                <p>Contact us and we'll get back to you within 24 hours.</p>
+                <p>
+                  <i class="ti-location-pin"></i> 12345 Fake ST NoWhere AB
+                  Country
+                </p>
+                <p><i class="ti-email"></i> nobody@website.com</p>
+                <div class="social-links">
+                  <a href="javascript:void(0)" class="link"
+                    ><i class="ti-facebook"></i
+                  ></a>
+                  <a href="javascript:void(0)" class="link"
+                    ><i class="ti-twitter-alt"></i
+                  ></a>
+                  <a href="javascript:void(0)" class="link"
+                    ><i class="ti-google"></i
+                  ></a>
+                  <a href="javascript:void(0)" class="link"
+                    ><i class="ti-pinterest-alt"></i
+                  ></a>
+                  <a href="javascript:void(0)" class="link"
+                    ><i class="ti-instagram"></i
+                  ></a>
+                  <a href="javascript:void(0)" class="link"
+                    ><i class="ti-rss"></i
+                  ></a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- core  -->
+    <script src="{% static 'vendors/jquery/jquery-3.4.1.js' %}"></script>
+    <script src="{% static 'vendors/vendors/bootstrap/bootstrap.bundle.js' %}"></script>
+
+    <!-- bootstrap affix -->
+    <script src="{% static 'vendors/bootstrap/bootstrap.affix.js' %}"></script>
+    <script src="{% static 'vendors/bootstrap/bootstrap.js' %}"></script>
+
+    <!-- ArtyProd js -->
+    <script src="{% static 'js/ArtyProd.js' %}"></script>
+
+    <script src="{% static 'js/Project-Details.js' %}"></script>
+    <!-- Popper.js first, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/esm/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+{% endblock %}

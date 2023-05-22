@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+{% block content %}
+  <div class="container d-flex justify-content-center align-items-center mt-5">
+<div class="custom-form-container ">
+    <h2 class="mb-3 text-center">Login</h2>
+    <form method="POST">
+      {% csrf_token %}
+      {{ login_form.non_field_errors }}
+      <div class="form-group">
+        <label for="id_username">Username : </label>
+        {{ login_form.username }}
+        {% if login_form.username.errors %}
+          <div class="text-danger">{{ login_form.username.errors }}</div>
+        {% endif %}
+      </div>
+      <div class="form-group">
+        <label for="id_password">Password : </label>
+        {{ login_form.password }}
+        {% if login_form.password.errors %}
+          <div class="text-danger">{{ login_form.password.errors }}</div>
+        {% endif %}
+      </div>
+      <div class="text-center">
+      <button class="btn btn-primary mb-2" type="submit">Login</button>
+      </div>
+    </form>
+    <p class="text-center">Don't have an account? <a href="{% url 'register' %}">Create an account</a>.</p>
+  </div>
+</div>
+{% endblock %}
